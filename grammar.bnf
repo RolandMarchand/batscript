@@ -4,7 +4,7 @@ TOP_DECL* ::= FUNC TOP_DECL*
 TOP_DECL* ::= VAR TOP_DECL*
 TOP_DECL* ::= ''
 
-FUNC ::= fun symbol ( PARAMS? ) RET_TYPE { STMT* }
+FUNC ::= fun symbol ( PARAMS? ) RET_TYPE? { STMT* }
 VAR ::= var symbol : TYPE = EXPR
 
 COMMA? ::= ,
@@ -20,8 +20,8 @@ PARAM_NEXT ::= ...
 
 PARAM ::= symbol : TYPE = EXPR
 
-RET_TYPE ::= TYPE
-RET_TYPE ::= non
+RET_TYPE? ::= TYPE
+RET_TYPE? ::= ''
 
 TYPE ::= int
 TYPE ::= str
@@ -38,7 +38,7 @@ STMT ::= WHILE
 STMT ::= RETURN
 STMT ::= BREAK
 
-RETURN ::= return EXPR
+RETURN ::= return EXPR?
 BREAK ::= break
 WHILE ::= while EXPR { STMT* }
 IF ::= if EXPR { STMT* } ELIF* ELSE?
@@ -47,6 +47,8 @@ ELIF* ::= ''
 ELSE? ::= else { STMT* }
 ELSE? ::= ''
 
+EXPR? ::= EXPR
+EXPR? ::= ''
 EXPR ::= EXPR_ASSIGN
 
 EXPR_ASSIGN ::= EXPR_LOGIC EXPR_ASSIGN_NEXT*

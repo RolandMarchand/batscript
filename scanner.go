@@ -29,7 +29,7 @@ func getTokens(text []byte) (tokens []Token, err error) {
 	}
 
 	var numberPattern = regexp.MustCompile(`^\d+`)
-	var symbolPattern = regexp.MustCompile(`^\p{Letter}(\p{Letter}|\d)*`)
+	var symbolPattern = regexp.MustCompile(`^(\p{Letter}|_)(\p{Letter}|_|\d)*`)
 	var ellipsisPattern = regexp.MustCompile(`^\.\.\.`)
 	var commentPattern = regexp.MustCompile(`^#.*`)
 	var spacePattern = regexp.MustCompile(`^\s+`)
@@ -69,8 +69,8 @@ func getTokens(text []byte) (tokens []Token, err error) {
 			switch match[0] {
 			case '=': tok = Token{DOUBLE_EQUAL, "==", offset}
 			case '!': tok = Token{NOT_EQUAL, "!=", offset}
-			case '<': tok = Token{LESSER_THAN_EQUAL, "<=", offset}
-			case '>': tok = Token{GREATER_THAN_EQUAL, ">=", offset}
+			case '<': tok = Token{LESSER_OR_EQUAL, "<=", offset}
+			case '>': tok = Token{GREATER_OR_EQUAL, ">=", offset}
 			default: log.Fatal("regex error")
 			}
 
@@ -127,7 +127,6 @@ func getTokens(text []byte) (tokens []Token, err error) {
 			case "if": tok = Token{IF, symbol, offset}
 			case "int": tok = Token{INT, symbol, offset}
 			case "nil": tok = Token{NIL, symbol, offset}
-			case "non": tok = Token{NON, symbol, offset}
 			case "obj": tok = Token{OBJ, symbol, offset}
 			case "or": tok = Token{OR, symbol, offset}
 			case "return": tok = Token{RETURN, symbol, offset}

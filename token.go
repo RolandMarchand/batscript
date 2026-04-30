@@ -30,8 +30,8 @@ const (
 
         DOUBLE_EQUAL            // ==
         NOT_EQUAL               // !=
-        LESSER_THAN_EQUAL       // <=
-        GREATER_THAN_EQUAL      // >=
+        LESSER_OR_EQUAL       // <=
+        GREATER_OR_EQUAL      // >=
         LESSER_THAN             // <
         GREATER_THAN            // >
 
@@ -55,7 +55,6 @@ const (
         IF
         INT 
         NIL
-        NON
         OBJ
         OR
         RETURN
@@ -79,8 +78,8 @@ var tokens = [...]string{
         RBRACE:             "}",
         DOUBLE_EQUAL:       "==",
         NOT_EQUAL:          "!=",
-        LESSER_THAN_EQUAL:  "<=",
-        GREATER_THAN_EQUAL: ">=",
+        LESSER_OR_EQUAL:    "<=",
+        GREATER_OR_EQUAL:   ">=",
         LESSER_THAN:        "<",
         GREATER_THAN:       ">",
         PLUS:               "+",
@@ -99,7 +98,6 @@ var tokens = [...]string{
         IF:                 "if",
         INT:                "int",
         NIL:                "nil",
-        NON:                "non",
         OBJ:                "obj",
         OR:                 "or",
         RETURN:             "return",

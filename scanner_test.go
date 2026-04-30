@@ -6,7 +6,7 @@ import (
 
 func TestOffset(t *testing.T) {
 	var input = "one two three four"
-	var expected = [...]int{0, 4, 8, 14}
+	var expected = [...]int{0, 4, 8, 14, 18}
 	var tokens, err = getTokens([]byte(input))
 
 	if err != nil {
@@ -14,6 +14,10 @@ func TestOffset(t *testing.T) {
 	}
 
 	for i, token := range tokens {
+		if i >= len(expected) {
+			t.Fatalf("unexpected token %s", token.lexeme)
+		}
+
 		if token.pos != expected[i] {
 			t.Errorf(
 				`input "%s": expected offset %d, got %d`,
@@ -34,11 +38,15 @@ func TestWhitespace(t *testing.T) {
 		t.Fatalf(`input "%s": %s`, input, err)
 	}
 
-	if len(tokens) != 2 {
+	var expected = 3
+
+	if len(tokens) != expected {
 		t.Fatalf(
-			`input "%s": expected 2 tokens, got %d`,
+			`input "%s": expected %d tokens, got %d: %v`,
 			input,
+			expected,
 			len(tokens),
+			tokens,
 		)
 	}
 }
@@ -61,8 +69,8 @@ func TestTokens(t *testing.T) {
 		{"}", Token{RBRACE, "}", 0}},
 		{"==", Token{DOUBLE_EQUAL, "==", 0}},
 		{"!=", Token{NOT_EQUAL, "!=", 0}},
-		{"<=", Token{LESSER_THAN_EQUAL, "<=", 0}},
-		{">=", Token{GREATER_THAN_EQUAL, ">=", 0}},
+		{"<=", Token{LESSER_OR_EQUAL, "<=", 0}},
+		{">=", Token{GREATER_OR_EQUAL, ">=", 0}},
 		{"<", Token{LESSER_THAN, "<", 0}},
 		{">", Token{GREATER_THAN, ">", 0}},
 		{"+", Token{PLUS, "+", 0}},
@@ -72,7 +80,7 @@ func TestTokens(t *testing.T) {
 		{"%", Token{PERCENT, "%", 0}},
 		{"0123456789", Token{NUMBER, "0123456789", 0}},
 		{`"hel\"o"`, Token{STRING, `"hel\"o"`, 0}},
-		{"symbol", Token{SYMBOL, "symbol", 0}},
+		{"a_symbol123", Token{SYMBOL, "a_symbol123", 0}},
 		{"and", Token{AND, "and", 0}},
 		{"break", Token{BREAK, "break", 0}},
 		{"elif", Token{ELIF, "elif", 0}},
@@ -81,7 +89,6 @@ func TestTokens(t *testing.T) {
 		{"if", Token{IF, "if", 0}},
 		{"int", Token{INT, "int", 0}},
 		{"nil", Token{NIL, "nil", 0}},
-		{"non", Token{NON, "non", 0}},
 		{"obj", Token{OBJ, "obj", 0}},
 		{"or", Token{OR, "or", 0}},
 		{"return", Token{RETURN, "return", 0}},
@@ -102,11 +109,15 @@ func TestTokens(t *testing.T) {
 			continue
 		}
 
-		if len(tokens) != 1 {
+		var expected = 2
+
+		if len(tokens) != expected {
 			t.Errorf(
-				"input %s: expected 1 token, got %d",
+				"input %s: expected %d token, got %d: %v",
 				tt.input,
+				expected,
 				len(tokens),
+				tokens,
 			)
 			continue
 		}

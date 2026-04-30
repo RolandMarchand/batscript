@@ -8,9 +8,14 @@ type Ast struct {
 
 type Func struct {
 	name string
-	params []Var
+	params Params
 	ret Type
 	body []Stmt
+}
+
+type Params struct {
+	vars []Var
+	variadic bool
 }
 
 type Var struct {
@@ -26,7 +31,7 @@ const (
 	TYPE_STR
 	TYPE_FUN
 	TYPE_OBJ
-	TYPE_NON
+	TYPE_VOID
 )
 
 type Stmt interface {
@@ -34,37 +39,39 @@ type Stmt interface {
 }
 
 type StmtVar Var
-func (s *StmtVar) stmtNode() {}
+func (s StmtVar) stmtNode() {}
 
 type StmtExpr struct {
 	expr Expr
 }
-func (s *StmtExpr) stmtNode() {}
+func (s StmtExpr) stmtNode() {}
 
 type StmtIf struct {
 	test Expr
 	body []Stmt
-	elifs []struct {
-		test Expr
-		body []Stmt
-	}
+	elifs []StmtElif
 	elseBody []Stmt
 }
-func (s *StmtIf) stmtNode() {}
+func (s StmtIf) stmtNode() {}
+
+type StmtElif struct {
+	test Expr
+	body []Stmt	
+}
 
 type StmtWhile struct {
 	test Expr
 	body []Stmt
 }
-func (s *StmtWhile) stmtNode() {}
+func (s StmtWhile) stmtNode() {}
 
 type StmtReturn struct {
 	value Expr
 }
-func (s *StmtReturn) stmtNode() {}
+func (s StmtReturn) stmtNode() {}
 
 type StmtBreak struct {}
-func (s *StmtBreak) stmtNode() {}
+func (s StmtBreak) stmtNode() {}
 
 type Expr interface {
 	exprNode()
@@ -75,20 +82,20 @@ type ExprBinary struct {
 	right Expr
 	op Op
 }
-func (e *ExprBinary) exprNode() {}
+func (e ExprBinary) exprNode() {}
 
 type ExprUnary struct {
 	value Expr
 	op Op
 }
-func (e *ExprUnary) exprNode() {}
+func (e ExprUnary) exprNode() {}
 
 type Op int
 
 const (
 	OP_ADD Op = iota
 	OP_SUB
-	OP_MULT
+	OP_MUL
 	OP_DIV
 	OP_MOD
 	OP_AND
@@ -107,33 +114,33 @@ type ExprCall struct {
 	callee Expr
 	args []Expr
 }
-func (e *ExprCall) exprNode() {}
+func (e ExprCall) exprNode() {}
 
 type ExprField struct {
 	object Expr
 	field string
 }
-func (e *ExprField) exprNode() {}
+func (e ExprField) exprNode() {}
 
 type ExprNumber struct {
 	value int64
 }
-func (e *ExprNumber) exprNode() {}
+func (e ExprNumber) exprNode() {}
 
 type ExprString struct {
 	value string
 }
-func (e *ExprString) exprNode() {}
+func (e ExprString) exprNode() {}
 
 type ExprSymbol struct {
 	value string
 }
-func (e *ExprSymbol) exprNode() {}
+func (e ExprSymbol) exprNode() {}
 
 type ExprObject struct {
 	fields []Var
 }
-func (e *ExprObject) exprNode() {}
+func (e ExprObject) exprNode() {}
 
 type ExprNil struct {}
-func (e *ExprNil) exprNode() {}
+func (e ExprNil) exprNode() {}
