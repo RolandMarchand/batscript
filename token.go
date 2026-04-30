@@ -14,6 +14,7 @@ type Token struct {
 
 const (
         ILLEGAL TokenKind = iota
+	EOF
         EQUAL                   // =
         BANG                    // !
         COLON                   // :
@@ -65,6 +66,7 @@ const (
 
 var tokens = [...]string{
         ILLEGAL:            "ILLEGAL",
+	EOF:                "EOF",
         EQUAL:              "=",
         BANG:               "!",
         COLON:              ":",

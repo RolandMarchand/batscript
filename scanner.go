@@ -18,6 +18,9 @@ func getTokensFromFile(filename string) ([]Token, error) {
 }
 
 func getTokens(text []byte) (tokens []Token, err error) {
+	if text == nil {
+		log.Fatal("null reference")
+	}
 
 	if !utf8.Valid(text) {
 		tokens = nil
@@ -144,6 +147,9 @@ func getTokens(text []byte) (tokens []Token, err error) {
 		offset += size		
 		tokens = append(tokens, tok)
 	}
+
+	var eof = Token{EOF, "", offset}
+	tokens = append(tokens, eof)
 
 	return
 }
