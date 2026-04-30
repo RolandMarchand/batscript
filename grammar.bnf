@@ -10,6 +10,7 @@ VAR ::= var symbol : TYPE = EXPR
 COMMA? ::= ,
 COMMA? ::= ''
 
+PARAMS? ::= ...
 PARAMS? ::= PARAM PARAM_NEXT*
 PARAMS? ::= ''
 PARAM_NEXT* ::= COMMA? PARAM_NEXT
@@ -43,7 +44,8 @@ WHILE ::= while EXPR { STMT* }
 IF ::= if EXPR { STMT* } ELIF* ELSE?
 ELIF* ::= elif EXPR { STMT* } ELIF*
 ELIF* ::= ''
-ELSE ::= else { STMT* }
+ELSE? ::= else { STMT* }
+ELSE? ::= ''
 
 EXPR ::= EXPR_ASSIGN
 
@@ -106,4 +108,12 @@ VALUE ::= <symbol>
 VALUE ::= OBJECT
 VALUE ::= nil
 
-OBJECT ::= obj { PARAMS? }
+OBJECT ::= obj { FIELDS? }
+
+FIELDS? ::= FIELD FIELD_NEXT*
+FIELDS? ::= ''
+
+FIELD_NEXT* ::= COMMA? FIELD_NEXT
+FIELD_NEXT* ::= ''
+FIELD_NEXT ::= FIELD FIELD_NEXT*
+FIELD ::= symbol : TYPE = EXPR
