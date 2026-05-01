@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"strconv"
 )
 
@@ -13,7 +12,7 @@ type Parser struct {
 
 func (p *Parser) peek() Token {
 	if len(p.tokens) == 0 {
-		log.Fatal("invalid token input, length 0")
+		panic("invalid argument, token input length 0")
 	}
 
 	if p.offset >= uint(len(p.tokens)) {
@@ -25,7 +24,7 @@ func (p *Parser) peek() Token {
 
 func (p *Parser) consume(kinds ...TokenKind) Token {
 	if len(p.tokens) == 0 {
-		log.Fatal("invalid token input, length 0")
+		panic("invalid argument, token input length 0")
 	}
 
 	if p.offset >= uint(len(p.tokens)) {
@@ -42,8 +41,9 @@ func (p *Parser) consume(kinds ...TokenKind) Token {
 	}
 
 	var err = fmt.Errorf(
-		"unexpected token %s, expected any: %s",
-		token,
+		`Line %d: unexpected token "%s", expected any: %s`,
+		token.line,
+		token.lexeme,
 		kinds,
 	)
 	panic(err)
@@ -51,7 +51,7 @@ func (p *Parser) consume(kinds ...TokenKind) Token {
 
 func getAst(tokens []Token) Ast {
 	if tokens == nil {
-		log.Fatal("null reference")
+		panic("null reference")
 	}
 
 	var parser Parser = Parser{tokens, 0}
@@ -487,8 +487,8 @@ func parseExprNumber(p *Parser) ExprNumber {
 	var numText = p.consume(NUMBER).lexeme
 	var number, err = strconv.ParseInt(numText, 10, 64)
 	if err != nil {
-		// max 9223372036854775807
-		log.Fatalf("%s too big (max 9223372036854775807)", numText)
+		panic(fmt.Sprintf("%s too big (max 9223372036854775807)",
+			numText))
 	}
 
 	expr.value = number

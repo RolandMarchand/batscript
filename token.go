@@ -10,6 +10,7 @@ type Token struct {
 	kind   TokenKind
 	lexeme string
 	pos    int
+	line   int
 }
 
 const (

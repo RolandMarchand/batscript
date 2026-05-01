@@ -15,15 +15,44 @@ func TestOffset(t *testing.T) {
 
 	for i, token := range tokens {
 		if i >= len(expected) {
-			t.Fatalf("unexpected token %s", token.lexeme)
+			t.Fatalf("line %d: unexpected token %s",
+				token.line,
+				token.lexeme)
 		}
 
 		if token.pos != expected[i] {
-			t.Errorf(
-				`input "%s": expected offset %d, got %d`,
+			t.Errorf(`input "%s": expected offset %d, got %d`,
 				input,
 				expected[i],
-				token.pos,
+				token.pos)
+		}
+	}
+}
+
+func TestLine(t *testing.T) {
+	var input = `one
+two three # four
+five
+
+six`
+	var expected = [...]int{1, 2, 2, 3, 5, 5}
+	var tokens, err = getTokens([]byte(input))
+
+	if err != nil {
+		t.Fatalf(`input "%s": %s`, input, err)
+	}
+
+	for i, token := range tokens {
+		if i >= len(expected) {
+			t.Fatalf("unexpected token %s", token.lexeme)
+		}
+
+		if token.line != expected[i] {
+			t.Errorf(
+				`input "%s": expected line %d, got %d`,
+				input,
+				expected[i],
+				token.line,
 			)
 		}
 	}
@@ -56,45 +85,45 @@ func TestTokens(t *testing.T) {
 		input    string
 		expected Token
 	}{
-		{"😭", Token{ILLEGAL, "😭", 0}},
-		{"=", Token{EQUAL, "=", 0}},
-		{"!", Token{BANG, "!", 0}},
-		{":", Token{COLON, ":", 0}},
-		{",", Token{COMMA, ",", 0}},
-		{".", Token{DOT, ".", 0}},
-		{"...", Token{ELLIPSIS, "...", 0}},
-		{"(", Token{LPAREN, "(", 0}},
-		{")", Token{RPAREN, ")", 0}},
-		{"{", Token{LBRACE, "{", 0}},
-		{"}", Token{RBRACE, "}", 0}},
-		{"==", Token{DOUBLE_EQUAL, "==", 0}},
-		{"!=", Token{NOT_EQUAL, "!=", 0}},
-		{"<=", Token{LESSER_OR_EQUAL, "<=", 0}},
-		{">=", Token{GREATER_OR_EQUAL, ">=", 0}},
-		{"<", Token{LESSER_THAN, "<", 0}},
-		{">", Token{GREATER_THAN, ">", 0}},
-		{"+", Token{PLUS, "+", 0}},
-		{"-", Token{MINUS, "-", 0}},
-		{"*", Token{STAR, "*", 0}},
-		{"/", Token{SLASH, "/", 0}},
-		{"%", Token{PERCENT, "%", 0}},
-		{"0123456789", Token{NUMBER, "0123456789", 0}},
-		{`"hel\"o"`, Token{STRING, `"hel\"o"`, 0}},
-		{"a_symbol123", Token{SYMBOL, "a_symbol123", 0}},
-		{"and", Token{AND, "and", 0}},
-		{"break", Token{BREAK, "break", 0}},
-		{"elif", Token{ELIF, "elif", 0}},
-		{"else", Token{ELSE, "else", 0}},
-		{"fun", Token{FUN, "fun", 0}},
-		{"if", Token{IF, "if", 0}},
-		{"int", Token{INT, "int", 0}},
-		{"nil", Token{NIL, "nil", 0}},
-		{"obj", Token{OBJ, "obj", 0}},
-		{"or", Token{OR, "or", 0}},
-		{"return", Token{RETURN, "return", 0}},
-		{"str", Token{STR, "str", 0}},
-		{"var", Token{VAR, "var", 0}},
-		{"while", Token{WHILE, "while", 0}},
+		{"😭", Token{ILLEGAL, "😭", 0, 1}},
+		{"=", Token{EQUAL, "=", 0, 1}},
+		{"!", Token{BANG, "!", 0, 1}},
+		{":", Token{COLON, ":", 0, 1}},
+		{",", Token{COMMA, ",", 0, 1}},
+		{".", Token{DOT, ".", 0, 1}},
+		{"...", Token{ELLIPSIS, "...", 0, 1}},
+		{"(", Token{LPAREN, "(", 0, 1}},
+		{")", Token{RPAREN, ")", 0, 1}},
+		{"{", Token{LBRACE, "{", 0, 1}},
+		{"}", Token{RBRACE, "}", 0, 1}},
+		{"==", Token{DOUBLE_EQUAL, "==", 0, 1}},
+		{"!=", Token{NOT_EQUAL, "!=", 0, 1}},
+		{"<=", Token{LESSER_OR_EQUAL, "<=", 0, 1}},
+		{">=", Token{GREATER_OR_EQUAL, ">=", 0, 1}},
+		{"<", Token{LESSER_THAN, "<", 0, 1}},
+		{">", Token{GREATER_THAN, ">", 0, 1}},
+		{"+", Token{PLUS, "+", 0, 1}},
+		{"-", Token{MINUS, "-", 0, 1}},
+		{"*", Token{STAR, "*", 0, 1}},
+		{"/", Token{SLASH, "/", 0, 1}},
+		{"%", Token{PERCENT, "%", 0, 1}},
+		{"0123456789", Token{NUMBER, "0123456789", 0, 1}},
+		{`"hel\"o"`, Token{STRING, `"hel\"o"`, 0, 1}},
+		{"a_symbol123", Token{SYMBOL, "a_symbol123", 0, 1}},
+		{"and", Token{AND, "and", 0, 1}},
+		{"break", Token{BREAK, "break", 0, 1}},
+		{"elif", Token{ELIF, "elif", 0, 1}},
+		{"else", Token{ELSE, "else", 0, 1}},
+		{"fun", Token{FUN, "fun", 0, 1}},
+		{"if", Token{IF, "if", 0, 1}},
+		{"int", Token{INT, "int", 0, 1}},
+		{"nil", Token{NIL, "nil", 0, 1}},
+		{"obj", Token{OBJ, "obj", 0, 1}},
+		{"or", Token{OR, "or", 0, 1}},
+		{"return", Token{RETURN, "return", 0, 1}},
+		{"str", Token{STR, "str", 0, 1}},
+		{"var", Token{VAR, "var", 0, 1}},
+		{"while", Token{WHILE, "while", 0, 1}},
 	}
 
 	for _, tt := range tests {
