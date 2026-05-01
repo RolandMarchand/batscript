@@ -14,7 +14,7 @@ func (p *Printer) indent() string {
 }
 
 func (p *Printer) line(format string, args ...any) {
-	fmt.Printf(p.indent() + format + "\n", args...)
+	fmt.Printf(p.indent()+format+"\n", args...)
 }
 
 func (p *Printer) enter(format string, args ...any) {
@@ -66,12 +66,18 @@ func printVar(p *Printer, v Var) {
 
 func printType(t Type) string {
 	switch t {
-	case TYPE_INT: return "int"
-	case TYPE_STR: return "str"
-	case TYPE_FUN: return "fun"
-	case TYPE_OBJ: return "obj"
-	case TYPE_VOID: return "void"
-	default:       return "unknown"
+	case TYPE_INT:
+		return "int"
+	case TYPE_STR:
+		return "str"
+	case TYPE_FUN:
+		return "fun"
+	case TYPE_OBJ:
+		return "obj"
+	case TYPE_VOID:
+		return "void"
+	default:
+		return "unknown"
 	}
 }
 
@@ -182,21 +188,37 @@ func printExpr(p *Printer, e Expr) {
 
 func printOp(op Op) string {
 	switch op {
-	case OP_ADD: return "+"
-	case OP_SUB: return "-"
-	case OP_MUL: return "*"
-	case OP_DIV: return "/"
-	case OP_MOD: return "%"
-	case OP_AND: return "and"
-	case OP_OR:  return "or"
-	case OP_EQ:  return "=="
-	case OP_NEQ: return "!="
-	case OP_LE:  return "<="
-	case OP_GE:  return ">="
-	case OP_LT:  return "<"
-	case OP_GT:  return ">"
-	case OP_NOT: return "!"
-	case OP_ASS: return "="
-	default:     return "unknown"
+	case OP_ADD:
+		return "+"
+	case OP_SUB:
+		return "-"
+	case OP_MUL:
+		return "*"
+	case OP_DIV:
+		return "/"
+	case OP_MOD:
+		return "%"
+	case OP_AND:
+		return "and"
+	case OP_OR:
+		return "or"
+	case OP_EQ:
+		return "=="
+	case OP_NEQ:
+		return "!="
+	case OP_LE:
+		return "<="
+	case OP_GE:
+		return ">="
+	case OP_LT:
+		return "<"
+	case OP_GT:
+		return ">"
+	case OP_NOT:
+		return "!"
+	case OP_ASS:
+		return "="
+	default:
+		return "unknown"
 	}
 }

@@ -67,11 +67,16 @@ func getTokens(text []byte) (tokens []Token, err error) {
 			var tok Token
 
 			switch match[0] {
-			case '=': tok = Token{DOUBLE_EQUAL, "==", offset}
-			case '!': tok = Token{NOT_EQUAL, "!=", offset}
-			case '<': tok = Token{LESSER_OR_EQUAL, "<=", offset}
-			case '>': tok = Token{GREATER_OR_EQUAL, ">=", offset}
-			default: log.Fatal("regex error")
+			case '=':
+				tok = Token{DOUBLE_EQUAL, "==", offset}
+			case '!':
+				tok = Token{NOT_EQUAL, "!=", offset}
+			case '<':
+				tok = Token{LESSER_OR_EQUAL, "<=", offset}
+			case '>':
+				tok = Token{GREATER_OR_EQUAL, ">=", offset}
+			default:
+				log.Fatal("regex error")
 			}
 
 			offset += len(match)
@@ -83,23 +88,40 @@ func getTokens(text []byte) (tokens []Token, err error) {
 			var tok Token
 
 			switch match[0] {
-			case '=': tok = Token{EQUAL, "=", offset}
-			case '!': tok = Token{BANG, "!", offset}
-			case ':': tok = Token{COLON, ":", offset}
-			case ',': tok = Token{COMMA, ",", offset}
-			case '.': tok = Token{DOT, ".", offset}
-			case '(': tok = Token{LPAREN, "(", offset}
-			case ')': tok = Token{RPAREN, ")", offset}
-			case '{': tok = Token{LBRACE, "{", offset}
-			case '}': tok = Token{RBRACE, "}", offset}
-			case '<': tok = Token{LESSER_THAN, "<", offset}
-			case '>': tok = Token{GREATER_THAN, ">", offset}
-			case '+': tok = Token{PLUS, "+", offset}
-			case '-': tok = Token{MINUS, "-", offset}
-			case '*': tok = Token{STAR, "*", offset}
-			case '/': tok = Token{SLASH, "/", offset}
-			case '%': tok = Token{PERCENT, "%", offset}
-			default: log.Fatal("regex error")
+			case '=':
+				tok = Token{EQUAL, "=", offset}
+			case '!':
+				tok = Token{BANG, "!", offset}
+			case ':':
+				tok = Token{COLON, ":", offset}
+			case ',':
+				tok = Token{COMMA, ",", offset}
+			case '.':
+				tok = Token{DOT, ".", offset}
+			case '(':
+				tok = Token{LPAREN, "(", offset}
+			case ')':
+				tok = Token{RPAREN, ")", offset}
+			case '{':
+				tok = Token{LBRACE, "{", offset}
+			case '}':
+				tok = Token{RBRACE, "}", offset}
+			case '<':
+				tok = Token{LESSER_THAN, "<", offset}
+			case '>':
+				tok = Token{GREATER_THAN, ">", offset}
+			case '+':
+				tok = Token{PLUS, "+", offset}
+			case '-':
+				tok = Token{MINUS, "-", offset}
+			case '*':
+				tok = Token{STAR, "*", offset}
+			case '/':
+				tok = Token{SLASH, "/", offset}
+			case '%':
+				tok = Token{PERCENT, "%", offset}
+			default:
+				log.Fatal("regex error")
 			}
 
 			offset += len(match)
@@ -119,21 +141,36 @@ func getTokens(text []byte) (tokens []Token, err error) {
 			var tok Token
 
 			switch symbol {
-			case "and": tok = Token{AND, symbol, offset}
-			case "break": tok = Token{BREAK, symbol, offset}
-			case "elif": tok = Token{ELIF, symbol, offset}
-			case "else": tok = Token{ELSE, symbol, offset}
-			case "fun": tok = Token{FUN, symbol, offset}
-			case "if": tok = Token{IF, symbol, offset}
-			case "int": tok = Token{INT, symbol, offset}
-			case "nil": tok = Token{NIL, symbol, offset}
-			case "obj": tok = Token{OBJ, symbol, offset}
-			case "or": tok = Token{OR, symbol, offset}
-			case "return": tok = Token{RETURN, symbol, offset}
-			case "str": tok = Token{STR, symbol, offset}
-			case "var": tok = Token{VAR, symbol, offset}
-			case "while": tok = Token{WHILE, symbol, offset}
-			default: tok = Token{SYMBOL, symbol, offset}
+			case "and":
+				tok = Token{AND, symbol, offset}
+			case "break":
+				tok = Token{BREAK, symbol, offset}
+			case "elif":
+				tok = Token{ELIF, symbol, offset}
+			case "else":
+				tok = Token{ELSE, symbol, offset}
+			case "fun":
+				tok = Token{FUN, symbol, offset}
+			case "if":
+				tok = Token{IF, symbol, offset}
+			case "int":
+				tok = Token{INT, symbol, offset}
+			case "nil":
+				tok = Token{NIL, symbol, offset}
+			case "obj":
+				tok = Token{OBJ, symbol, offset}
+			case "or":
+				tok = Token{OR, symbol, offset}
+			case "return":
+				tok = Token{RETURN, symbol, offset}
+			case "str":
+				tok = Token{STR, symbol, offset}
+			case "var":
+				tok = Token{VAR, symbol, offset}
+			case "while":
+				tok = Token{WHILE, symbol, offset}
+			default:
+				tok = Token{SYMBOL, symbol, offset}
 			}
 
 			offset += len(match)
@@ -143,7 +180,7 @@ func getTokens(text []byte) (tokens []Token, err error) {
 
 		var rune, size = utf8.DecodeRune(text[offset:])
 		var tok = Token{ILLEGAL, string(rune), offset}
-		offset += size		
+		offset += size
 		tokens = append(tokens, tok)
 	}
 

@@ -53,7 +53,7 @@ func TestWhitespace(t *testing.T) {
 
 func TestTokens(t *testing.T) {
 	var tests = []struct {
-		input string
+		input    string
 		expected Token
 	}{
 		{"😭", Token{ILLEGAL, "😭", 0}},
@@ -123,7 +123,7 @@ func TestTokens(t *testing.T) {
 		}
 
 		if tokens[0] != tt.expected {
-			t.Errorf (
+			t.Errorf(
 				"input %s: expected %s",
 				tt.input,
 				tt.expected,

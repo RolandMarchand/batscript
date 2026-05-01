@@ -11,7 +11,6 @@ type Parser struct {
 	offset uint
 }
 
-
 func (p *Parser) peek() Token {
 	if len(p.tokens) == 0 {
 		log.Fatal("invalid token input, length 0")
@@ -93,11 +92,16 @@ func parseVar(p *Parser) Var {
 
 func parseType(p *Parser) Type {
 	switch p.consume(INT, STR, FUN, OBJ).kind {
-	case INT: return TYPE_INT
-	case STR: return TYPE_STR
-	case FUN: return TYPE_FUN
-	case OBJ: return TYPE_OBJ
-	default: panic("invalid state")
+	case INT:
+		return TYPE_INT
+	case STR:
+		return TYPE_STR
+	case FUN:
+		return TYPE_FUN
+	case OBJ:
+		return TYPE_OBJ
+	default:
+		panic("invalid state")
 	}
 }
 
@@ -126,11 +130,16 @@ func parseReturnType(p *Parser) Type {
 		return TYPE_VOID
 	}
 	switch p.consume(INT, STR, FUN, OBJ).kind {
-	case INT: return TYPE_INT
-	case STR: return TYPE_STR
-	case FUN: return TYPE_FUN
-	case OBJ: return TYPE_OBJ
-	default: panic("invalid state")
+	case INT:
+		return TYPE_INT
+	case STR:
+		return TYPE_STR
+	case FUN:
+		return TYPE_FUN
+	case OBJ:
+		return TYPE_OBJ
+	default:
+		panic("invalid state")
 	}
 }
 
@@ -173,13 +182,20 @@ func parseStmts(p *Parser) []Stmt {
 
 	for {
 		switch p.peek().kind {
-		case VAR: stmts = append(stmts, StmtVar(parseVar(p)))
-		case IF: stmts = append(stmts, parseIf(p))
-		case WHILE: stmts = append(stmts, parseWhile(p))
-		case RETURN: stmts = append(stmts, parseReturn(p))
-		case BREAK: stmts = append(stmts, parseBreak(p))
-		case RBRACE: return stmts
-		default: stmts = append(stmts, parseStmtExpr(p))
+		case VAR:
+			stmts = append(stmts, StmtVar(parseVar(p)))
+		case IF:
+			stmts = append(stmts, parseIf(p))
+		case WHILE:
+			stmts = append(stmts, parseWhile(p))
+		case RETURN:
+			stmts = append(stmts, parseReturn(p))
+		case BREAK:
+			stmts = append(stmts, parseBreak(p))
+		case RBRACE:
+			return stmts
+		default:
+			stmts = append(stmts, parseStmtExpr(p))
 		}
 	}
 }
@@ -310,13 +326,20 @@ func parseExprCmp(p *Parser) Expr {
 			LESSER_THAN,
 			GREATER_THAN,
 		).kind {
-		case DOUBLE_EQUAL: op = OP_EQ
-		case NOT_EQUAL: op = OP_NEQ
-		case LESSER_OR_EQUAL: op = OP_LE
-		case GREATER_OR_EQUAL: op = OP_GE
-		case LESSER_THAN: op = OP_LT
-		case GREATER_THAN: op = OP_GT
-		default: panic("invalid state")
+		case DOUBLE_EQUAL:
+			op = OP_EQ
+		case NOT_EQUAL:
+			op = OP_NEQ
+		case LESSER_OR_EQUAL:
+			op = OP_LE
+		case GREATER_OR_EQUAL:
+			op = OP_GE
+		case LESSER_THAN:
+			op = OP_LT
+		case GREATER_THAN:
+			op = OP_GT
+		default:
+			panic("invalid state")
 		}
 
 		expr = ExprBinary{expr, parseExprAdd(p), op}
@@ -351,10 +374,14 @@ func parseExprMult(p *Parser) Expr {
 
 		var op Op
 		switch p.consume(STAR, SLASH, PERCENT).kind {
-		case STAR: op = OP_MUL
-		case SLASH: op = OP_DIV
-		case PERCENT: op = OP_MOD
-		default: panic("invalid state")
+		case STAR:
+			op = OP_MUL
+		case SLASH:
+			op = OP_DIV
+		case PERCENT:
+			op = OP_MOD
+		default:
+			panic("invalid state")
 		}
 
 		expr = ExprBinary{expr, parseExprUnary(p), op}
@@ -373,10 +400,14 @@ func parseExprUnary(p *Parser) Expr {
 
 	var op Op
 	switch p.consume(PLUS, MINUS, BANG).kind {
-	case PLUS: op = OP_ADD
-	case MINUS: op = OP_SUB
-	case BANG: op = OP_NOT
-	default: panic("invalid state")
+	case PLUS:
+		op = OP_ADD
+	case MINUS:
+		op = OP_SUB
+	case BANG:
+		op = OP_NOT
+	default:
+		panic("invalid state")
 	}
 
 	return ExprUnary{parseExprUnary(p), op}
@@ -435,12 +466,18 @@ func parseExprPrimary(p *Parser) Expr {
 
 func parseValue(p *Parser) Expr {
 	switch p.peek().kind {
-	case NUMBER: return parseExprNumber(p)
-	case STRING: return parseExprString(p)
-	case SYMBOL: return parseExprSymbol(p)
-	case OBJ: return parseExprObj(p)
-	case NIL: return parseExprNil(p)
-	default: return ExprNil{}
+	case NUMBER:
+		return parseExprNumber(p)
+	case STRING:
+		return parseExprString(p)
+	case SYMBOL:
+		return parseExprSymbol(p)
+	case OBJ:
+		return parseExprObj(p)
+	case NIL:
+		return parseExprNil(p)
+	default:
+		return ExprNil{}
 	}
 }
 

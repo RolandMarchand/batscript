@@ -1,26 +1,25 @@
 package main
 
-
 type Ast struct {
 	funcs []Func
-	vars []Var
+	vars  []Var
 }
 
 type Func struct {
-	name string
+	name   string
 	params Params
-	ret Type
-	body []Stmt
+	ret    Type
+	body   []Stmt
 }
 
 type Params struct {
-	vars []Var
+	vars     []Var
 	variadic bool
 }
 
 type Var struct {
-	name string
-	kind Type
+	name     string
+	kind     Type
 	assigned Expr
 }
 
@@ -39,38 +38,44 @@ type Stmt interface {
 }
 
 type StmtVar Var
+
 func (s StmtVar) stmtNode() {}
 
 type StmtExpr struct {
 	expr Expr
 }
+
 func (s StmtExpr) stmtNode() {}
 
 type StmtIf struct {
-	test Expr
-	body []Stmt
-	elifs []StmtElif
+	test     Expr
+	body     []Stmt
+	elifs    []StmtElif
 	elseBody []Stmt
 }
+
 func (s StmtIf) stmtNode() {}
 
 type StmtElif struct {
 	test Expr
-	body []Stmt	
+	body []Stmt
 }
 
 type StmtWhile struct {
 	test Expr
 	body []Stmt
 }
+
 func (s StmtWhile) stmtNode() {}
 
 type StmtReturn struct {
 	value Expr
 }
+
 func (s StmtReturn) stmtNode() {}
 
-type StmtBreak struct {}
+type StmtBreak struct{}
+
 func (s StmtBreak) stmtNode() {}
 
 type Expr interface {
@@ -78,16 +83,18 @@ type Expr interface {
 }
 
 type ExprBinary struct {
-	left Expr
+	left  Expr
 	right Expr
-	op Op
+	op    Op
 }
+
 func (e ExprBinary) exprNode() {}
 
 type ExprUnary struct {
 	value Expr
-	op Op
+	op    Op
 }
+
 func (e ExprUnary) exprNode() {}
 
 type Op int
@@ -112,35 +119,42 @@ const (
 
 type ExprCall struct {
 	callee Expr
-	args []Expr
+	args   []Expr
 }
+
 func (e ExprCall) exprNode() {}
 
 type ExprField struct {
 	object Expr
-	field string
+	field  string
 }
+
 func (e ExprField) exprNode() {}
 
 type ExprNumber struct {
 	value int64
 }
+
 func (e ExprNumber) exprNode() {}
 
 type ExprString struct {
 	value string
 }
+
 func (e ExprString) exprNode() {}
 
 type ExprSymbol struct {
 	value string
 }
+
 func (e ExprSymbol) exprNode() {}
 
 type ExprObject struct {
 	fields []Var
 }
+
 func (e ExprObject) exprNode() {}
 
-type ExprNil struct {}
+type ExprNil struct{}
+
 func (e ExprNil) exprNode() {}
