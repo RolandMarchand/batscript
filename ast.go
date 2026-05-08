@@ -33,6 +33,17 @@ const (
 	TYPE_VOID
 )
 
+func (t Type) String() string {
+	switch t {
+	case TYPE_INT: return "int"
+	case TYPE_STR: return "string"
+	case TYPE_FUN: return "function"
+	case TYPE_OBJ: return "object"
+	case TYPE_VOID: return "void"
+	default: return "unknown"
+	}
+}
+
 type Stmt interface {
 	stmtNode()
 }
